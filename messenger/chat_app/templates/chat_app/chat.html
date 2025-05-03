@@ -1,0 +1,17 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Кімната чату</h1>
+    <form action="" id = "messageForm">
+        {{ form.as_p }}
+        <input type="submit">
+    </form>
+    <div id="messages"></div>
+    <script src="{% static 'chat_app/chat.js' %}"></script>
+</body>
+</html>
