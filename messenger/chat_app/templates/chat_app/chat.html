@@ -7,11 +7,21 @@
 </head>
 <body>
     <h1>Кімната чату</h1>
-    <form action="" id = "messageForm">
-        {{ form.as_p }}
-        <input type="submit">
-    </form>
+    {% if request.user.is_authenticated %}
+        <h2>Ви авторизувались як {{ request.user.username }}</h2>
+        <form action="{% url 'logout' %}" method = "post">
+            {% csrf_token %}
+            <button>Вийти з акаунту</button>
+        </form>
+        <form action="" id = "messageForm">
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    {% else %}
+        <h2>Авторизуйтесь, щоб писати повідомлення</h2>
+    {% endif %}
     <div id="messages"></div>
     <script src="{% static 'chat_app/chat.js' %}"></script>
+    
 </body>
 </html>
