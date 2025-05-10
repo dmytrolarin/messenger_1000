@@ -1,18 +1,10 @@
+{% extends 'base.html' %}
+
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+
+{% block content %}
     <h1>Кімната чату</h1>
     {% if request.user.is_authenticated %}
-        <h2>Ви авторизувались як {{ request.user.username }}</h2>
-        <form action="{% url 'logout' %}" method = "post">
-            {% csrf_token %}
-            <button>Вийти з акаунту</button>
-        </form>
         <form action="" id = "messageForm">
             {{ form.as_p }}
             <input type="submit">
@@ -22,6 +14,4 @@
     {% endif %}
     <div id="messages"></div>
     <script src="{% static 'chat_app/chat.js' %}"></script>
-    
-</body>
-</html>
+{% endblock %}

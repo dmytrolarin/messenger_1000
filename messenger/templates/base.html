@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <a href="{% url 'chat' %}">Чат</a>
+        {% if request.user.is_authenticated %}
+            <p>Вітаємо, {{ request.user }}</p>
+            <form method = "post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'register' %}">Регістрація</a>
+            <a href="{% url 'login' %}">Логін</a>
+        {% endif %}
+        <hr>
+    </header>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
