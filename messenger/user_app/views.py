@@ -14,4 +14,4 @@ class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
 
 class CustomLogoutView(LogoutView):
-    next_page = "login"
+    next_page = "login" 

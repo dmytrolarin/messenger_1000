@@ -3,7 +3,8 @@
 {% load static %}
 
 {% block content %}
-    <h1>Кімната чату</h1>
+    <h1>Група: "{{ chat_group.name }}"</h1>
+    <input type="hidden" value="{{ chat_group.pk }}" id="chatGroupPk">
     {% if request.user.is_authenticated %}
         <form action="" id = "messageForm">
             {{ form.as_p }}

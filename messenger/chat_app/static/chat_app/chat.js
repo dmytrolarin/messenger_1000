@@ -2,8 +2,10 @@
 
 */ 
 
+const chatGroupPk = document.getElementById("chatGroupPk").value
+
 // 
-const socketUrl = `ws://${window.location.host}/chat/`
+const socketUrl = `ws://${window.location.host}/chat_group/${chatGroupPk}`
 
 // 
 const socket = new WebSocket(socketUrl)

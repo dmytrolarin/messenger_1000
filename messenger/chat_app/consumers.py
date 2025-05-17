@@ -16,8 +16,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         '''
 
         '''
+        self.chat_group_pk = self.scope["url_route"]["kwargs"]["chat_group_pk"]
         #
-        self.group_name = 'test_group'
+        self.group_name = str(self.chat_group_pk)
         #
         await self.channel_layer.group_add(
             #
