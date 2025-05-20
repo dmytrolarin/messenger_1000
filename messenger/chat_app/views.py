@@ -12,6 +12,7 @@ class ChatView(FormView):
         context = super().get_context_data(**kwargs)
         chat_group_pk = self.kwargs['chat_group_pk']
         context['chat_group'] = ChatGroup.objects.get(pk=chat_group_pk)
+        # context[]
         return context
     
     

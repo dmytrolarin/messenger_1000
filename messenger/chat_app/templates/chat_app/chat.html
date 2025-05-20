@@ -5,6 +5,7 @@
 {% block content %}
     <h1>Група: "{{ chat_group.name }}"</h1>
     <input type="hidden" value="{{ chat_group.pk }}" id="chatGroupPk">
+    <!-- <input type="hidden" value="{{ request.user.username }}" id="usernameInput"> -->
     {% if request.user.is_authenticated %}
         <form action="" id = "messageForm">
             {{ form.as_p }}

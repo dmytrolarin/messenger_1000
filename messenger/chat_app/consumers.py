@@ -34,6 +34,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         '''
         
         '''
+        
+        self.user = self.scope["user"]
+        username = self.user.username
         #
         await self.channel_layer.group_send(
             #
@@ -43,6 +46,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "type": "send_message_to_chat",
                 #
                 "text_data": text_data,
+                "username": username
             }
         )
 
@@ -50,8 +54,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         '''
         
         '''
+        
+        
         #
         text_data_dict = json.loads(event["text_data"])
+        username = event["username"]
+        text_data_dict['username'] = username
+
+        # text_data_dict['username']
         #
         form = MessageForm(text_data_dict)
         #

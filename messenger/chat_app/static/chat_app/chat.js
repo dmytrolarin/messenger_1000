@@ -18,6 +18,8 @@ const messages = document.querySelector('#messages')
 // 
 form.addEventListener("submit", (event) => {
     // 
+    // const username = document.querySelector('#usernameInput').value
+    // 
     event.preventDefault()
     // 
     let message = document.getElementById("id_message").value
@@ -33,8 +35,9 @@ socket.addEventListener("message", function(event){
     const messageObject  = JSON.parse(event.data)
     // 
     const messageElem = document.createElement('p')
-    // 
-    messageElem.textContent = messageObject['message']
+    // const username = document.querySelector('#usernameInput').value
+    // usernameInput messageObject['username']
+    messageElem.textContent = `${messageObject['username']}: ${messageObject['message']}`
     // 
     messages.append(messageElem)
 })
