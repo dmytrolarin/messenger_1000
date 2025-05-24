@@ -4,7 +4,8 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from .forms import MessageForm
-
+from channels.db import database_sync_to_async
+from .models import ChatGroup, ChatMessage
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -37,6 +38,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         self.user = self.scope["user"]
         username = self.user.username
+        await self.save_message(message = json.loads(text_data)['message'])
         #
         await self.channel_layer.group_send(
             #
@@ -55,7 +57,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         '''
         
-        
         #
         text_data_dict = json.loads(event["text_data"])
         username = event["username"]
@@ -71,4 +72,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         else:
             print('error')
             
+    @database_sync_to_async
+    def save_message(self, message):
+        author = self.scope['user']
+        message = message
+        group = ChatGroup.objects.get(pk = self.group_name)
+        ChatMessage.objects.create(author = author, content = message, chat_group = group)
           
