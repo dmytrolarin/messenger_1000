@@ -38,7 +38,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         self.user = self.scope["user"]
         username = self.user.username
-        await self.save_message(message = json.loads(text_data)['message'])
+        saved_message = await self.save_message(message = json.loads(text_data)['message'])
         #
         await self.channel_layer.group_send(
             #
@@ -48,7 +48,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "type": "send_message_to_chat",
                 #
                 "text_data": text_data,
-                "username": username
+                "username": username,
+                "date_time": saved_message.date_time
             }
         )
 
@@ -61,6 +62,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_dict = json.loads(event["text_data"])
         username = event["username"]
         text_data_dict['username'] = username
+        text_data_dict["date_time"] = event["date_time"].isoformat()
 
         # text_data_dict['username']
         #
@@ -77,5 +79,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
         author = self.scope['user']
         message = message
         group = ChatGroup.objects.get(pk = self.group_name)
-        ChatMessage.objects.create(author = author, content = message, chat_group = group)
+        return ChatMessage.objects.create(author = author, content = message, chat_group = group)
           

@@ -15,6 +15,12 @@ const form = document.getElementById("messageForm")
 // 
 const messages = document.querySelector('#messages')
 
+const datesAndTimes = document.querySelectorAll('.date-time')
+for (let dt of datesAndTimes){
+    let dateAndTime = new Date(dt.textContent)
+    let dateAndTimeLocal = dateAndTime.toLocaleString()
+    dt.textContent = dateAndTimeLocal
+}
 // 
 form.addEventListener("submit", (event) => {
     // 
@@ -37,7 +43,10 @@ socket.addEventListener("message", function(event){
     const messageElem = document.createElement('p')
     // const username = document.querySelector('#usernameInput').value
     // usernameInput messageObject['username']
-    messageElem.textContent = `${messageObject['username']}: ${messageObject['message']}`
+    let dateTime = new Date(messageObject['date_time'])
+    let dateTimeLocal = dateTime.toLocaleString()
+    
+    messageElem.innerHTML = `${messageObject['username']}: <b>${messageObject['message']}</b> (${dateTimeLocal})`
     // 
     messages.append(messageElem)
 })

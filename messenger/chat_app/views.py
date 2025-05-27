@@ -2,7 +2,8 @@ from django.shortcuts import redirect
 from .forms import MessageForm
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
-from .models import ChatGroup
+from .models import ChatGroup, ChatMessage
+
 
 class ChatView(FormView):
     template_name = "chat_app/chat.html"
@@ -20,7 +21,7 @@ class ChatView(FormView):
         context = super().get_context_data(**kwargs)
         chat_group_pk = self.kwargs['chat_group_pk']
         context['chat_group'] = ChatGroup.objects.get(pk=chat_group_pk)
-        # context[]
+        context['chat_messages'] =  ChatMessage.objects.filter(chat_group_id = chat_group_pk)
         return context
     
     
