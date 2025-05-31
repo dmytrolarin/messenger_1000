@@ -17,6 +17,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         '''
 
         '''
+        #
         self.chat_group_pk = self.scope["url_route"]["kwargs"]["chat_group_pk"]
         #
         self.group_name = str(self.chat_group_pk)
@@ -29,15 +30,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
         #
         await self.accept()
-        print('Підключення успішне')
 
     async def receive(self, text_data):
         '''
         
         '''
-        
+        #
         self.user = self.scope["user"]
+        #
         username = self.user.username
+        #
         saved_message = await self.save_message(message = json.loads(text_data)['message'])
         #
         await self.channel_layer.group_send(
@@ -60,11 +62,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         #
         text_data_dict = json.loads(event["text_data"])
+        #
         username = event["username"]
+        #
         text_data_dict['username'] = username
+        #
         text_data_dict["date_time"] = event["date_time"].isoformat()
 
-        # text_data_dict['username']
         #
         form = MessageForm(text_data_dict)
         #
@@ -76,8 +80,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
             
     @database_sync_to_async
     def save_message(self, message):
+        '''
+        
+        '''
+
+        #
         author = self.scope['user']
+        #
         message = message
+        #
         group = ChatGroup.objects.get(pk = self.group_name)
+        #
         return ChatMessage.objects.create(author = author, content = message, chat_group = group)
           

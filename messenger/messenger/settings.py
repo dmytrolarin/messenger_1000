@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne', #
+    'daphne', # Бібліотека, яка відповідає за роботу сервера з асинхроними запитами
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'user_app'
 ]
 
-#
+# Шлях до об'єкту application, який обробляє асинхронні запити
 ASGI_APPLICATION = 'messenger.asgi.application'
 
 #
@@ -139,4 +139,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Вказуємо, куди буде перенаправляти після авторизації
 LOGIN_REDIRECT_URL = reverse_lazy("group_list")

@@ -4,16 +4,12 @@
 
 {% block content %}
     <h1>Група: "{{ chat_group.name }}"</h1>
+    <!--  -->
     <input type="hidden" value="{{ chat_group.pk }}" id="chatGroupPk">
-    <!-- <input type="hidden" value="{{ request.user.username }}" id="usernameInput"> -->
-    {% if request.user.is_authenticated %}
-        <form action="" id = "messageForm">
-            {{ form.as_p }}
-            <input type="submit">
-        </form>
-    {% else %}
-        <h2>Авторизуйтесь, щоб писати повідомлення</h2>
-    {% endif %}
+    <form action="" id = "messageForm">
+        {{ form.as_p }}
+        <input type="submit">
+    </form>
     <div id="messages">
         {% for message in chat_messages %}
             <p>{{ message.author }}: <b>{{ message.content }}</b> (<span class="date-time">{{message.date_time|date:'c'}}</span>)</p>    

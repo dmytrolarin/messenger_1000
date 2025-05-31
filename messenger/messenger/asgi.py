@@ -16,12 +16,12 @@ from channels.auth import AuthMiddlewareStack
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'messenger.settings')
 
-#
+# Об'єкт додатку, який обробляє асинхронні запити
 application = ProtocolTypeRouter({
-    #
+    # Якщо звичайний http запит, тоді звичайна обробка запиту django
     'http': get_asgi_application(),
-    #
-    'websocket': AuthMiddlewareStack(
-        URLRouter(websocket_urlpatterns)
+    # Якщо websocket запит
+    'websocket': AuthMiddlewareStack( # AuthMiddlewareStack дає доступ до об'єкта аввторизованого користувача через self.scope у ChatConsumer
+        URLRouter(websocket_urlpatterns) # Вказуємо файл з маршрутизацією для обробки websocket-запитів
     )
 })
