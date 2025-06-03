@@ -7,6 +7,7 @@
 <body>
     <header>
         <a href="{% url 'group_list' %}">Усі групи</a>
+        <a href="{% url 'personal_chats' %}">Усі особисті чати</a>
         {% if request.user.is_authenticated %}
             <p>Вітаємо, {{ request.user }}</p>
             <form method = "post" action="{% url 'logout' %}">

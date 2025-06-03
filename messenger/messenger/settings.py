@@ -46,11 +46,11 @@ INSTALLED_APPS = [
 # Шлях до об'єкту application, який обробляє асинхронні запити
 ASGI_APPLICATION = 'messenger.asgi.application'
 
-#
+# Створюємо константу, яка вказує як будуть оброблятися дані каналів
 CHANNEL_LAYERS = {
-    #
+    # Створюємо канал, на якому знаходиться користувач по замовчуванню
     "default":{
-        #
+        # Вказуємо, що інформація про усі з'єднання зберігається в пам'яті комп'ютера
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }

@@ -12,7 +12,7 @@ class ChatGroup(models.Model):
     
 class ChatMessage(models.Model):
     '''
-    
+    Модель для повідомлень
     '''
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -4,12 +4,14 @@
 
 {% block content %}
     <h1>Група: "{{ chat_group.name }}"</h1>
-    <!--  -->
+    <!-- Прихований, інпут який зберігає значення pk групи для його використання в майбутньому у js -->
     <input type="hidden" value="{{ chat_group.pk }}" id="chatGroupPk">
+    <!-- Форма для відправки повідомлення -->
     <form action="" id = "messageForm">
         {{ form.as_p }}
         <input type="submit">
     </form>
+    <!-- Контейнер для повідомлень у якому відображуются усі повідомленя з інформацією: Хто написав, контент повідомлення та дата повідомлення -->
     <div id="messages">
         {% for message in chat_messages %}
             <p>{{ message.author }}: <b>{{ message.content }}</b> (<span class="date-time">{{message.date_time|date:'c'}}</span>)</p>    

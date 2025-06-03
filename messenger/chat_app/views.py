@@ -3,6 +3,7 @@ from .forms import MessageForm
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
 from .models import ChatGroup, ChatMessage
+from django.contrib.auth.models import User
 
 
 class ChatView(FormView):
@@ -31,12 +32,18 @@ class ChatView(FormView):
     
     def get_context_data(self, **kwargs):
         '''
-        
+            Метод для додавання у контекст для класів відображення
         '''
+
+        # Отримуємо об'єкт контексту з батьківського класу FormView 
         context = super().get_context_data(**kwargs)
+        # Отримуємо pk групи з kwargs (Тобто з дінамічного url адрессу)
         chat_group_pk = self.kwargs['chat_group_pk']
+        # Додаємо у контекст групу
         context['chat_group'] = ChatGroup.objects.get(pk=chat_group_pk)
+        # Додаємо у контекст усі повідомлення групи
         context['chat_messages'] =  ChatMessage.objects.filter(chat_group_id = chat_group_pk)
+        # повертаємо контекст зі змінами
         return context
     
     
@@ -47,3 +54,11 @@ class GroupsView(ListView):
     # Вказуємо модель, з якої беремо усі об'єкти груп
     model = ChatGroup
     template_name = "chat_app/group_list.html"
+
+
+class PersonalChatsView(ListView):
+    template_name = 'chat_app/personal_chat.html'
+
+    def get_queryset(self):
+        return User.objects.exclude(pk = self.request.user.pk)
+    

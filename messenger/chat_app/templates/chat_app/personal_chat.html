@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Усі особисті чати</h1>
+    {% for user in object_list %}
+        <h2>{{ user.username }}</h2>
+        <a href="">Написати</a>
+        <hr>
+    {% endfor %}
+{% endblock %}
