@@ -8,6 +8,7 @@ class ChatGroup(models.Model):
     '''
     name = models.CharField(max_length = 255)
     users = models.ManyToManyField(User)
+    personal_chat = models.BooleanField(default = False)
     
     
 class ChatMessage(models.Model):

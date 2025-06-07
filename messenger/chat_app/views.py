@@ -51,14 +51,49 @@ class GroupsView(ListView):
     '''
     Клас, який відповідає за відображення всіх груп
     '''
-    # Вказуємо модель, з якої беремо усі об'єкти груп
-    model = ChatGroup
+
     template_name = "chat_app/group_list.html"
 
+    def get_queryset(self):
+        '''
+        Метод, який повертає список об'єктів, що передадуться у шаблон
+        '''
+        #Повертає усі групи, які не є персональними чатами
+        return ChatGroup.objects.filter(personal_chat = False)
 
 class PersonalChatsView(ListView):
+    '''
+    Класс відображення для особистих чатів
+    '''
     template_name = 'chat_app/personal_chat.html'
 
     def get_queryset(self):
+        #Повертаємо усіх користувачів, окрім авторизованого користувача
         return User.objects.exclude(pk = self.request.user.pk)
     
+def create_chat(request, user_pk):
+    '''
+    Функція, яка отримує або створює персональний чат
+    '''
+
+    # Отримуємо користувача, до якого під'єднуєтья поточний користувач
+    user_to_connect = User.objects.get(pk=user_pk)
+    # Отримуємо поточного користувача
+    current_user = User.objects.get(pk=request.user.pk)
+    # Персональні чати, до яких до яких під'єднан користувач, з яким ми створюємо зв'язок
+    groups_of_user_to_connect = ChatGroup.objects.filter(users=user_to_connect,personal_chat=True)
+    # Отримуємо песрональний чат, до якої під'єднані обидва користувачі
+    group_personal_chat = groups_of_user_to_connect.filter(users = current_user).first()
+    # Перевіряємо чи є цей чат у БД
+    if not group_personal_chat:
+        # Створюємо персональний чат з користувачами
+        group_personal_chat = ChatGroup.objects.create(
+            name=f'personal, users: {current_user}-{user_to_connect}',
+            personal_chat=True
+        )
+        # Зберігаємо користувачів у персональний чат
+        group_personal_chat.users.set([current_user,user_to_connect])
+        # Зберігаємо зміни у персональному чаті
+        group_personal_chat.save()
+    # Перенаправляємо користувача на сторінку цього чату
+    return redirect("chat_group",group_personal_chat.pk)
