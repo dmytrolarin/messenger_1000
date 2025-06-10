@@ -25,6 +25,14 @@ class ChatView(FormView):
         chat_group = ChatGroup.objects.get(pk=chat_group_pk)
         # Якщо користувач є у списку учасників групи
         if user in chat_group.users.all():
+            # Отримпуємо усі повідомлення, що знаходяться у цій групі
+            all_messages = ChatMessage.objects.filter(chat_group = chat_group)
+            # Перебараємо усі повідомлення
+            for message in all_messages:
+                # Додаємо корисстувача у поле views за зв'язком ManyToMany
+                message.views.add(user)
+                # Збрегіаємо зв'язок з користувачем у БД
+                message.save()
             # Продовжуємо обробку запиту.
             return super().dispatch(request, *args, **kwargs)
         # Перенаправляємо користувача на головну сторінку.

@@ -14,7 +14,8 @@
     <!-- Контейнер для повідомлень у якому відображуются усі повідомленя з інформацією: Хто написав, контент повідомлення та дата повідомлення -->
     <div id="messages">
         {% for message in chat_messages %}
-            <p>{{ message.author }}: <b>{{ message.content }}</b> (<span class="date-time">{{message.date_time|date:'c'}}</span>)</p>    
+            <p>{{ message.author }}: <b>{{ message.content }}</b> (<span class="date-time">{{message.date_time|date:'c'}}</span>)</p>  
+            <i>Переглядів: {{ message.views.all | length }}</i>
         {% endfor %}
     </div>
     <script src="{% static 'chat_app/chat.js' %}"></script>
