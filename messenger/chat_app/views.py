@@ -25,7 +25,7 @@ class ChatView(FormView):
         chat_group = ChatGroup.objects.get(pk=chat_group_pk)
         # Якщо користувач є у списку учасників групи
         if user in chat_group.users.all():
-            # Отримпуємо усі повідомлення, що знаходяться у цій групі
+            # Отримуємо усі повідомлення, що знаходяться у цій групі
             all_messages = ChatMessage.objects.filter(chat_group = chat_group)
             # Перебараємо усі повідомлення
             for message in all_messages:

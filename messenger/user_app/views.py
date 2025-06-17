@@ -2,6 +2,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView,LogoutView
 from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .models import Profile
 
 
 class RegisterView(CreateView):
@@ -14,6 +15,14 @@ class RegisterView(CreateView):
     template_name = "user_app/register.html"
     # Вказуємо url сторінки, на яку відбудеться перенаправлення після реєстрації
     success_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = self.object
+        date_of_birth = form.cleaned_data.get("date_of_birth")
+        avatar = form.cleaned_data.get("avatar")
+        Profile.objects.create(user = user, date_of_birth = date_of_birth, avatar = avatar)
+        return response
 
 class CustomLoginView(LoginView):
     '''
