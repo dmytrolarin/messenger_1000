@@ -141,3 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Вказуємо, куди буде перенаправляти після авторизації
 LOGIN_REDIRECT_URL = reverse_lazy("group_list")
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media/"
