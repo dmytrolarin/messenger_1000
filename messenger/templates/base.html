@@ -1,7 +1,9 @@
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'user_app/css/popup.css' %}" >
     <title>Document</title>
 </head>
 <body>
@@ -9,11 +11,26 @@
         <a href="{% url 'group_list' %}">Усі групи</a>
         <a href="{% url 'personal_chats' %}">Усі особисті чати</a>
         {% if request.user.is_authenticated %}
-            <p>Вітаємо, {{ request.user }}</p>
+            <h3 style="display: flex; align-items: center; gap: 5px;">
+                {{ request.user }}
+                {% if user.profile.avatar %}
+                    <img src="{{user.profile.avatar.url}}" id = "avatar" style="width: 40px; border-radius: 100%; border: 1px solid black;">
+                {% else %}
+                    <img src="{% static 'user_app/images/default_avatar.png' %}" id = 'avatar' style="width: 40px; border-radius: 100%; border: 1px solid black;">   
+                {% endif %}
+            </h3>
             <form method = "post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">Logout</button>
             </form>
+            <div class="popup hidden" id="popup">
+                <h3>Оновлення аватарки<a href="#" id="closePopup">×</a></h3>
+                <form action="{% url 'update_avatar' %}" method="post" enctype="multipart/form-data" id="popupForm">
+                    {% csrf_token %}
+                    <input type="file" name="avatar" id="avatarInput" required>
+                    <p><button>submit</button></p>
+                </form>
+            </div>
         {% else %}
             <a href="{% url 'register' %}">Реєстрація</a>
             <a href="{% url 'login' %}">Логін</a>
@@ -22,5 +39,8 @@
     </header>
     {% block content %}
     {% endblock %}
+    <script src = "{% static 'user_app/js/jquery-3.7.1.min.js' %}"></script>
+    <script src = "{% static 'user_app/js/update_avatar.js' %}"></script>
+    <script src = "{% static 'user_app/js/popup.js'%}"></script>
 </body>
 </html>

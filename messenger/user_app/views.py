@@ -1,5 +1,6 @@
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView,UpdateView
 from django.contrib.auth.views import LoginView,LogoutView
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .models import Profile
@@ -37,3 +38,11 @@ class CustomLogoutView(LogoutView):
     '''
     # Куди буде перенапрявляти після успішного виходу з акаунту
     next_page = "login" 
+
+
+def update_avatar(request):
+    avatar = request.FILES.get('avatar')
+    profile = Profile.objects.get(user=request.user)
+    profile.avatar = avatar
+    profile.save()
+    return JsonResponse({'success':True, 'avatar_url': profile.avatar.url})
